@@ -4,12 +4,18 @@
 //         .then(json => json.data)
 // }
 
+import * as base64 from 'base-64'
+
 async function runFetch(url) {
     try {
-        let fetchCall = await fetch(url)
+        let fetchCall = await fetch(url, {
+            headers: new Headers({
+                "Authorization": `Basic ${base64.encode(`GargantulaKon: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}`)}`
+            }),
+        })
         return await fetchCall.json()
     } catch (error) {
-        console.error(error)
+        console.error('api error',  error)
     }
 }
 

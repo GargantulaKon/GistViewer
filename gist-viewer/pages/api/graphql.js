@@ -1,9 +1,10 @@
 import {ApolloServer, gql} from 'apollo-server-micro'
-import {getGistsByUser} from "../../library/githubAPI";
+import {getGistById, getGistsByUser} from "../../library/githubAPI";
 
 const typeDefs = gql`
   type Query {
     gists(username: String): [Gist!]!
+    gist(id: String): Gist!
   }
   type Gist {
     url: String
@@ -13,8 +14,20 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         async gists(parent, args, context) {
-            console.log('args', args)
-            return getGistsByUser(args.username)
+            try {
+                console.log('args', args)
+                return getGistsByUser(args.username)
+            } catch (error) {
+                console.error('api error', error)
+            }
+        },
+        async gist(parent, args, context) {
+            try {
+                console.log('args', args)
+                return getGistById(args.id)
+            } catch (error) {
+                console.error('api error', error)
+            }
         },
     },
 }
