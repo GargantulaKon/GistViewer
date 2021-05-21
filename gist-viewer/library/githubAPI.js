@@ -3,20 +3,20 @@
 //         .then(res => res.json())
 //         .then(json => json.data)
 // }
-export async function getGistsByUser(username) {
+
+async function runFetch(url) {
     try {
-        let fetchCall = await fetch(`https://api.github.com/users/${username}/gists`)
+        let fetchCall = await fetch(url)
         return await fetchCall.json()
     } catch (error) {
         console.error(error)
     }
 }
 
+export async function getGistsByUser(username) {
+    return await runFetch(`https://api.github.com/users/${username}/gists`)
+}
+
 export async function getGistById(id) {
-    try {
-        let fetchCall = await fetch(`https://api.github.com/gists/${id}`)
-        return await fetchCall.json()
-    } catch (error) {
-        console.error(error)
-    }
+    return await runFetch(`https://api.github.com/gists/${id}`)
 }
