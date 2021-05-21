@@ -17,7 +17,7 @@ const fetcher = async (query) => {
 
 
 export default function Index() {
-    const {data, error} = useSWR('{ gists { name } }', fetcher),
+    const {data, error} = useSWR('{ gists(username: "akutuzov") { url } }', fetcher),
         [gistsByUser, setGistsByUser] = useState({gists: [], isFetching: false});
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export default function Index() {
             try {
                 setGistsByUser({gists: gistsByUser.gists, isFetching: true});
                 const response = await getGistsByUser('dansteen');
-                console.log(response);
+                // console.log(response);
                 setGistsByUser({gists: response, isFetching: false});
             } catch (e) {
                 console.log(e);
@@ -43,11 +43,13 @@ export default function Index() {
     return (
         <>
             <div>
-                {gists.map((user, i) => (
-                    <div key={i}>{user.name}</div>
+                <h1>Fetching via API (GraphQL)</h1>
+                {gists.map((gist, i) => (
+                    <div key={i}>{gist.url}</div>
                 ))}
             </div>
             <div>
+                <h1>Fetching via library</h1>
                 {!gistsByUser.isFetching ? gistsByUser.gists.map((gist, i) => (
                     <div key={i}>{gist.url}</div>
                 )) : 'Loading...'}

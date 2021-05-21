@@ -1,23 +1,25 @@
-import { ApolloServer, gql } from 'apollo-server-micro'
+import {ApolloServer, gql} from 'apollo-server-micro'
+import {getGistsByUser} from "../../library/githubAPI";
 
 const typeDefs = gql`
   type Query {
-    gists: [User!]!
+    gists(username: String): [User!]!
   }
   type User {
-    name: String
+    url: String
   }
 `
 
 const resolvers = {
     Query: {
-        gists(parent, args, context) {
-            return [{ name: 'Is this for real?' }]
+        async gists(parent, args, context) {
+            console.log('args', args)
+            return getGistsByUser(args.username)
         },
     },
 }
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers })
+const apolloServer = new ApolloServer({typeDefs, resolvers})
 
 export const config = {
     api: {
@@ -25,4 +27,4 @@ export const config = {
     },
 }
 
-export default apolloServer.createHandler({ path: '/api/graphql' })
+export default apolloServer.createHandler({path: '/api/graphql'})
