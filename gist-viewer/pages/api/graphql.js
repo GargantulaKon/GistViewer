@@ -24,7 +24,6 @@ const resolvers = {
     Query: {
         async gists(parent, args, context) {
             try {
-                // console.log('args', args)
                 return getGistsByUser(args.username)
             } catch (error) {
                 console.error('api error', error)
@@ -32,7 +31,6 @@ const resolvers = {
         },
         async gist(parent, args, context) {
             try {
-                // console.log('args', args)
                 return getGistById(args.id)
             } catch (error) {
                 console.error('api error', error)
@@ -55,7 +53,6 @@ const resolvers = {
             }
         },
         async removeFavoriteGist(parent, args, context) {
-            console.log('args', args)
             try {
                 return removeFavoriteGist(args.id)
             } catch (error) {
