@@ -13,10 +13,10 @@ async function runFetch(url) {
     }
 }
 
-export async function getGistsByUser(username) {
-    return await runFetch(`https://api.github.com/users/${username}/gists`)
+export function getGistsByUser(username) {
+    return runFetch(`https://api.github.com/users/${username}/gists`)
 }
 
-export async function getGistById(id) {
-    return await runFetch(`https://api.github.com/gists/${id}`)
+export function getGistById(id) {
+    return runFetch(`https://api.github.com/gists/${id}`)
 }
