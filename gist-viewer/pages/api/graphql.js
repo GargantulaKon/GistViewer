@@ -3,9 +3,9 @@ import {getGistsByUser} from "../../library/githubAPI";
 
 const typeDefs = gql`
   type Query {
-    gists(username: String): [User!]!
+    gists(username: String): [Gist!]!
   }
-  type User {
+  type Gist {
     url: String
   }
 `
