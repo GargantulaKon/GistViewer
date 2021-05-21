@@ -103,9 +103,9 @@ const Index = (props) => {
             {console.log('favoriteGists', favoriteGists)}
             <div>
                 <h1>Fetching all favorite gists via API (GraphQL)</h1>
-                    {!favoriteGists.isFetching ? favoriteGists.gists.map((gist, i) => (
-                        <div key={i}>{gist.gistId}</div>
-                    )) : 'Loading...'}
+                {!favoriteGists.isFetching ? favoriteGists.gists.map((gist, i) => (
+                    <div key={i}>{gist.gistId}</div>
+                )) : 'Loading...'}
             </div>
 
             {/*{console.log('gistsByUserViaLibrary', gistsByUserViaLibrary)}*/}

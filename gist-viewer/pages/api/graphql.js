@@ -1,17 +1,20 @@
 import {ApolloServer, gql} from 'apollo-server-micro'
 import {getGistById, getGistsByUser} from "../../library/githubAPI";
-import {getAllFavoriteGists} from "./gistFavorites";
+import {getAllFavoriteGists, setFavoriteGist} from "./gistFavorites";
 
 const typeDefs = gql`
   type Query {
     gists(username: String): [Gist!]!
     gist(id: String): Gist!
-    getAllFavoriteGists: [GistFavorites!]!
+    getAllFavoriteGists: [GistFavorite!]!
+  }
+  type Mutation {
+    setFavoriteGist(id: String!): GistFavorite!
   }
   type Gist {
     url: String
   }
-  type GistFavorites {
+  type GistFavorite {
     gistId: String
   }
 `
@@ -41,7 +44,23 @@ const resolvers = {
                 console.error('api error', error)
             }
         },
+        // async setFavoriteGist(parent, args, context) {
+        //     try {
+        //         return setFavoriteGist(args.id)
+        //     } catch (error) {
+        //         console.error('api error', error)
+        //     }
+        // },
     },
+    Mutation: {
+        async setFavoriteGist(parent, args, context) {
+            try {
+                return setFavoriteGist(args.id)
+            } catch (error) {
+                console.error('api error', error)
+            }
+        },
+    }
 }
 
 const apolloServer = new ApolloServer({typeDefs, resolvers})
