@@ -12,7 +12,7 @@ generator client {
 
 model Gist {
   id            Int       @default(autoincrement()) @id
-  gist_id       String
+  gistId       String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 }

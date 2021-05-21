@@ -2,6 +2,12 @@ import {useEffect, useState} from "react";
 
 import {getGistsByUser} from "../library/githubAPI";
 
+export const getStaticProps = async () => {
+    const feed = await prisma.gist.findMany()
+    console.log('feed', feed)
+    return {props: {feed: JSON.parse(JSON.stringify(feed))}}
+}
+
 const fetcher = async (query) => {
     let fetchCall = await fetch('/api/graphql', {
             method: 'POST',
@@ -14,11 +20,13 @@ const fetcher = async (query) => {
     return await json.data
 }
 
-export default function Index() {
+const Index = (props) => {
+    console.log('props', props)
     // const {data, error} = callGraphQLQuery('{ gists(username: "akutuzov") { url } }'),
 
     const [gistsByUser, setGistsByUser] = useState({gists: [], isFetching: false}),
         [gistById, setGistById] = useState({gist: {}, isFetching: false}),
+        [favoriteGists, setFavoriteGists] = useState({gists: [], isFetching: false}),
         [gistsByUserViaLibrary, setGistsByUserViaLibrary] = useState({gists: [], isFetching: false})
     // graphQLQuery = fetcher('{ gists(username: "akutuzov") { url } }')
 
@@ -44,6 +52,17 @@ export default function Index() {
                     setGistById({gist: gistById.gist, isFetching: false});
                 }
             },
+            fetchAllFavoriteGists = async () => {
+                try {
+                    setFavoriteGists({gists: gistById.gist, isFetching: true});
+                    const response = await fetcher('{ getAllFavoriteGists { gistId } }');
+                    console.log('response', response)
+                    setFavoriteGists({gists: response.getAllFavoriteGists, isFetching: false})
+                } catch (e) {
+                    console.log(e);
+                    setFavoriteGists({gists: gistById.gist, isFetching: false});
+                }
+            },
             fetchGistsViaLibrary = async () => {
                 try {
                     setGistsByUserViaLibrary({gists: gistsByUserViaLibrary.gists, isFetching: true});
@@ -54,9 +73,10 @@ export default function Index() {
                     setGistsByUserViaLibrary({gists: gistsByUserViaLibrary.gists, isFetching: false});
                 }
             };
-        // fetchGists();
-        fetchGistById();
-        // fetchGistsViaLibrary();
+        // fetchGists()
+        // fetchGistById()
+        fetchAllFavoriteGists()
+        // fetchGistsViaLibrary()
     }, []);
 
     // if (error) return <div>Failed to load</div>
@@ -73,11 +93,21 @@ export default function Index() {
             {/*        <div key={i}>{gist.url}</div>*/}
             {/*    )) : 'Loading...'}*/}
             {/*</div>*/}
-            {console.log('gistById', gistById)}
+
+            {/*{console.log('gistById', gistById)}*/}
+            {/*<div>*/}
+            {/*    <h1>Fetching gist by gist ID via API (GraphQL)</h1>*/}
+            {/*    {!gistById.isFetching ? <div>{gistById.gist.url}</div> : 'Loading...'}*/}
+            {/*</div>*/}
+
+            {console.log('favoriteGists', favoriteGists)}
             <div>
-                <h1>Fetching gist by gist ID via API (GraphQL)</h1>
-                {!gistById.isFetching ? <div>{gistById.gist.url}</div> : 'Loading...'}
+                <h1>Fetching all favorite gists via API (GraphQL)</h1>
+                    {!favoriteGists.isFetching ? favoriteGists.gists.map((gist, i) => (
+                        <div key={i}>{gist.gistId}</div>
+                    )) : 'Loading...'}
             </div>
+
             {/*{console.log('gistsByUserViaLibrary', gistsByUserViaLibrary)}*/}
             {/*<div>*/}
             {/*    <h1>Fetching via library</h1>*/}
@@ -88,3 +118,5 @@ export default function Index() {
         </>
     )
 }
+
+export default Index
