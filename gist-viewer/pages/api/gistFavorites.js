@@ -1,15 +1,21 @@
+import prisma from "../../library/prisma";
+
 export async function getAllFavoriteGists() {
-    const feed = await prisma.gist.findMany()
-    console.log('feedInAPI', feed)
-    return feed
+    return await prisma.gist.findMany()
 }
 
 export async function setFavoriteGist(gistId) {
-    const feed = await prisma.gist.create({
+    return await prisma.gist.create({
         data: {
             gistId
         }
     })
-    console.log('setFeedInAPI', feed)
-    return feed
+}
+
+export async function removeFavoriteGist(gistId) {
+    return await prisma.gist.delete({
+        where: {
+            gistId,
+        },
+    })
 }

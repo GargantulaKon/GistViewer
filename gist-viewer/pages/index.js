@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 
 import {getGistsByUser} from "../library/githubAPI";
+import prisma from "../library/prisma";
 
 export const getStaticProps = async () => {
     const feed = await prisma.gist.findMany()

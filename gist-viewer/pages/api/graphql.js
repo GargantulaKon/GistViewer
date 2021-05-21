@@ -1,6 +1,6 @@
 import {ApolloServer, gql} from 'apollo-server-micro'
 import {getGistById, getGistsByUser} from "../../library/githubAPI";
-import {getAllFavoriteGists, setFavoriteGist} from "./gistFavorites";
+import {getAllFavoriteGists, removeFavoriteGist, setFavoriteGist} from "./gistFavorites";
 
 const typeDefs = gql`
   type Query {
@@ -10,6 +10,7 @@ const typeDefs = gql`
   }
   type Mutation {
     setFavoriteGist(id: String!): GistFavorite!
+    removeFavoriteGist(id: String!): GistFavorite!
   }
   type Gist {
     url: String
@@ -43,19 +44,20 @@ const resolvers = {
             } catch (error) {
                 console.error('api error', error)
             }
-        },
-        // async setFavoriteGist(parent, args, context) {
-        //     try {
-        //         return setFavoriteGist(args.id)
-        //     } catch (error) {
-        //         console.error('api error', error)
-        //     }
-        // },
+        }
     },
     Mutation: {
         async setFavoriteGist(parent, args, context) {
             try {
                 return setFavoriteGist(args.id)
+            } catch (error) {
+                console.error('api error', error)
+            }
+        },
+        async removeFavoriteGist(parent, args, context) {
+            console.log('args', args)
+            try {
+                return removeFavoriteGist(args.id)
             } catch (error) {
                 console.error('api error', error)
             }
