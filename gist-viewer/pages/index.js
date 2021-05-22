@@ -128,7 +128,7 @@ const Index = () => {
                                     <img alt="empty star" title="Mark Favorite" src="../../image/star_empty.png"/>
                                 </a>
                             }
-                            <Link href={` / gist /${id}`}>
+                            <Link href={`/gist/${id}`}>
                                 <a>
                                     <div key={`id${i}`} className={common.fieldTitle}><span
                                         className={common.fieldLabel}>ID:</span> {id}</div>
