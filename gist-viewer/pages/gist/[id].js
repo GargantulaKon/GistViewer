@@ -25,7 +25,7 @@ const ViewGist = () => {
         <Layout pageTitle="View Gist)">
             <div className={common.card}>
                 <div className={common.mainInfo}>
-                    <h1>View Gist</h1>
+                    <h1>Gist Files</h1>
                     {gist.gist.files ? console.log('Object.keys(gist.gist.files)', Object.keys(gist.gist.files)) : null}
                     <>{!gist.isFetching ?
                         gist.gist.files ?
