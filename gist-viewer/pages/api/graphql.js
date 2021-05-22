@@ -3,6 +3,8 @@ import {getGistById, getGistsByUser} from "../../library/githubAPI";
 import {getAllFavoriteGists, removeFavoriteGist, setFavoriteGist} from "./gistFavorites";
 
 const typeDefs = gql`
+scalar JSON
+
   type Query {
     gists(username: String): [Gist!]!
     gist(id: String): Gist!
@@ -13,10 +15,14 @@ const typeDefs = gql`
     removeFavoriteGist(id: String!): GistFavorite!
   }
   type Gist {
-    url: String
+    id: String!
+    description: String!
+    created_at: String!
+    url: String!
+    files: JSON
   }
   type GistFavorite {
-    gistId: String
+    gistId: String!
   }
 `
 
@@ -31,6 +37,7 @@ const resolvers = {
         },
         async gist(parent, args, context) {
             try {
+                // return console.log(await getGistById(args.id))
                 return getGistById(args.id)
             } catch (error) {
                 console.error('api error', error)

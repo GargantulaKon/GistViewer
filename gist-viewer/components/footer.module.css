@@ -1,0 +1,40 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    align-items: center;
+    background-color: rgb(21, 98, 161);
+    color: #fff;
+    text-align: center;
+    min-height: 80px;
+    border-top: #000 solid 1px;
+}
+
+.footerBox {
+    background: rgb(9, 61, 104);
+    background: linear-gradient(
+            180deg,
+            rgba(9, 61, 104, 1) 0%,
+            rgba(0, 40, 73, 1) 100%
+    );
+    border-width: 1px;
+    border-color: rgb(59, 128, 184);
+    border-style: solid;
+    border-radius: 50px;
+    margin: 10px;
+    padding: 20px;
+    font-size: 0.9rem;
+    box-shadow: 0 5px 10px rgb(20, 20, 20);
+}
+
+.link {
+    color: #fff;
+}
+
+.link:hover {
+    color: #fff;
+}
+
+.icon {
+    font-size: 16px;
+}

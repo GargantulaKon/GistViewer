@@ -1,0 +1,15 @@
+.usernameInput {
+    margin: 10px;
+    height: 55px;
+    font-size: 1.3rem;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.formLabel {
+    font-size: 1.5rem;
+}

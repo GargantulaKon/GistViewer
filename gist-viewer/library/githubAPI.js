@@ -1,10 +1,9 @@
-import * as base64 from 'base-64'
-
 async function runFetch(url) {
     try {
         let fetchCall = await fetch(url, {
             headers: new Headers({
-                "Authorization": `Basic ${base64.encode(`GargantulaKon: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}`)}`
+                // "Authorization": `Basic ${base64.encode(`GargantulaKon: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}`)}`
+                "Authorization": "token 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"
             }),
         })
         return await fetchCall.json()
