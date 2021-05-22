@@ -1,21 +1,32 @@
 import prisma from "../../library/prisma";
 
-export async function getAllFavoriteGists() {
-    return await prisma.gist.findMany()
+async function prismaFetcher(func) {
+    try {
+        return await func()
+    } catch (error) {
+        console.error(error)
+    } finally {
+        console.log('disconnecting from DB')
+        await prisma.$disconnect()
+    }
+}
+
+export function getAllFavoriteGists() {
+    return prismaFetcher(() => prisma.gist.findMany())
 }
 
 export async function setFavoriteGist(gistId) {
-    return await prisma.gist.create({
+    return prismaFetcher(() => prisma.gist.create({
         data: {
             gistId
         }
-    })
+    }))
 }
 
 export async function removeFavoriteGist(gistId) {
-    return await prisma.gist.delete({
+    return prismaFetcher(() => prisma.gist.delete({
         where: {
             gistId,
         },
-    })
+    }))
 }

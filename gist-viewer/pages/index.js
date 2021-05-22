@@ -1,71 +1,90 @@
 import {useEffect, useState} from "react";
 import Link from 'next/link';
 
-import {setStateViaAPI} from "../library/graphQLHelper";
+import {addOrRemoveFavorite, setStateViaAPI} from "../library/graphQLHelper";
 import Layout from "../components/layout";
 import styles from '../styles/index.module.css';
 import common from '../styles/common.module.css';
 
 const Index = () => {
     const [gistsByUser, setGistsByUser] = useState({gists: [], isFetching: false}),
-        [gistById, setGistById] = useState({gist: {url: ''}, isFetching: false}),
-        [favoriteGists, setFavoriteGists] = useState({gists: [], isFetching: false}),
+        // [gistById, setGistById] = useState({gist: {url: ''}, isFetching: false}),
+        [favoriteGistsFetch, setFavoriteGistsFetch] = useState({gists: [], isFetching: false}),
         [username, setUsername] = useState(''),
         [isLoading, setIsLoading] = useState(false),
-        [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+        [isSubmitDisabled, setIsSubmitDisabled] = useState(true),
+        [favorites, setFavorites] = useState([])
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitDisabled(true);
-        setIsLoading(true);
-        // console.log('gistsByUser State', gistsByUser)
-        await setStateViaAPI(gistsByUser, setGistsByUser, 'gists',
-            `{ gists(username: "${username}") { url, description, created_at, id } }`, 'gists')
-        setIsLoading(false);
-
-        // try {
-        //     const contentType = 'application/json',
-        //         res = await fetch('/api/saveInterest', {
-        //             method: 'POST',
-        //             headers: {
-        //                 Accept: contentType,
-        //                 'Content-Type': contentType,
-        //             },
-        //         });
-        //
-        //     if (res.ok) {
-        //         const {data} = await res.json();
-        //         setIsLoading(false);
-        //         alert(data);
-        //     } else {
-        //         throw new Error(res.status);
-        //     }
-        // } catch (error) {
-        //     console.error('Failed to add interest.');
-        //     console.log(error);
-        // }
-    };
-
-    useEffect(() => {
-        const fetchGists = async () => {
-                await setStateViaAPI(gistsByUser, setGistsByUser, 'gists',
-                    '{ gists(username: "akutuzov") { url } }', 'gists')
-            },
-            fetchGistById = async () => {
-                await setStateViaAPI(gistById, setGistById, 'gist',
-                    '{ gist(id: "98d3a64c2c93c685a7406178d8badb0b") { url } }', 'gist')
-            },
-            fetchAllFavoriteGists = async () => {
-                await setStateViaAPI(favoriteGists, setFavoriteGists, 'gists',
+    useEffect(async () => {
+        try {
+            const fetchAllFavoriteGists = async () => {
+                await setStateViaAPI(favoriteGistsFetch, setFavoriteGistsFetch, 'gists',
                     '{ getAllFavoriteGists { gistId } }', 'getAllFavoriteGists')
             }
-        // fetchGists()
-        // fetchGistById()
-        // fetchAllFavoriteGists()
+            await fetchAllFavoriteGists()
+        } catch (error) {
+            console.error(error)
+        }
     }, []);
+
+    useEffect(() => {
+        if (!favoriteGistsFetch.gists) {
+            return;
+        }
+        let convertedList = []
+        favoriteGistsFetch.gists.forEach((gist) => {
+            convertedList.push(gist.gistId)
+        })
+        console.log('convertedList', convertedList)
+        setFavorites(convertedList)
+    }, [favoriteGistsFetch]);
+
+    const handleSubmit = async (event) => {
+            event.preventDefault();
+            setIsSubmitDisabled(true);
+            setIsLoading(true);
+            // console.log('gistsByUser State', gistsByUser)
+            await setStateViaAPI(gistsByUser, setGistsByUser, 'gists',
+                `{ gists(username: "${username}") { url, description, created_at, id } }`, 'gists')
+            setIsLoading(false);
+            setIsSubmitDisabled(false);
+        },
+        addFavorite = async (event, id, query) => {
+            event.preventDefault();
+            setIsLoading(true);
+            try {
+                let result = await addOrRemoveFavorite(query)
+
+                if (result.setFavoriteGist.gistId) {
+                    setIsLoading(false);
+                    setFavorites([...favorites, id])
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        removeFavorite = async (event, id, query) => {
+            event.preventDefault();
+            setIsLoading(true);
+            try {
+                let result = await addOrRemoveFavorite(query)
+                console.log('result', result)
+                if (result.removeFavoriteGist.gistId) {
+                    setIsLoading(false);
+                    setFavorites(favorites.filter((favorite) => favorite !== id))
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
 
     return (
         <Layout pageTitle="Home">
+            {isLoading ?
+                <div className={common.loadingScreen}>
+                    <div className={common.loadingText}>Loading...</div>
+                </div>
+                : null}
             <div>
                 <form id={'add-interest'} onSubmit={handleSubmit} className={styles.form}>
                     <span className={styles.formLabel}>Username:</span>
@@ -98,8 +117,18 @@ const Index = () => {
                 <div>
                     {!gistsByUser.gists.length ? 'Please search first.' : null}
                     {!gistsByUser.isFetching ? gistsByUser.gists.map(({id, description, created_at, url}, i) => (
-                        <div className={common.gistCard}>
-                            <Link href={`/gist/${id}`}>
+                        <div key={id} className={common.gistCard}>
+                            {console.log('favs', favorites)}
+                            {favorites.includes(id) ?
+                                <a onClick={(event) => removeFavorite(event, id, `mutation { removeFavoriteGist(id: "${id}") { gistId } }`)}><img
+                                    alt="full star" title="Remove Favorite" src="../../image/star_full.png"/>
+                                </a>
+                                :
+                                <a onClick={(event) => addFavorite(event, id, `mutation { setFavoriteGist(id: "${id}") { gistId } }`)}>
+                                    <img alt="empty star" title="Mark Favorite" src="../../image/star_empty.png"/>
+                                </a>
+                            }
+                            <Link href={` / gist /${id}`}>
                                 <a>
                                     <div key={`id${i}`} className={common.fieldTitle}><span
                                         className={common.fieldLabel}>ID:</span> {id}</div>
@@ -115,23 +144,9 @@ const Index = () => {
                                 className={common.fieldLabel}>Url:</span> <a href={url} target="_blank">Link to Gist</a>
                             </div>
                         </div>
-                    )) : 'Loading...'}
+                    )) : null}
                 </div>
             </div>
-
-            {/*{console.log('gistById', gistById)}*/}
-            {/*<div>*/}
-            {/*    <h1>Fetching gist by gist ID via API (GraphQL)</h1>*/}
-            {/*    {!gistById.isFetching ? <div>{gistById.gist.url}</div> : 'Loading...'}*/}
-            {/*</div>*/}
-
-            {/*{console.log('favoriteGists', favoriteGists)}*/}
-            {/*<div>*/}
-            {/*    <h1>Fetching all favorite gists via API (GraphQL)</h1>*/}
-            {/*    {!favoriteGists.isFetching ? favoriteGists.gists.map((gist, i) => (*/}
-            {/*        <div key={i}>{gist.gistId}</div>*/}
-            {/*    )) : 'Loading...'}*/}
-            {/*</div>*/}
         </Layout>
     )
 }

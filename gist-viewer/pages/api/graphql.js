@@ -16,7 +16,7 @@ scalar JSON
   }
   type Gist {
     id: String!
-    description: String!
+    description: String
     created_at: String!
     url: String!
     files: JSON
