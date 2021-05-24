@@ -7,21 +7,24 @@ import {useRouter} from 'next/router'
 const ViewGist = () => {
     const router = useRouter(),
         {id} = router.query,
-        [gist, setGist] = useState({gist: {url: ''}, isFetching: false})
+        [gist, setGist] = useState({gist: {url: ''}, isFetching: false}),
+        [isLoading, setIsLoading] = useState(false)
 
     useEffect(async () => {
         if (!id) {
             return;
         }
+        setIsLoading(true);
         const fetchGist = async () => {
             await setStateViaAPI(gist, setGist, 'gist',
                 `{ gist(id: "${id}") { files } }`, 'gist')
         }
         await fetchGist()
+        setIsLoading(false);
     }, [id]);
 
     return (
-        <Layout pageTitle="View Gist)">
+        <Layout pageTitle="View Gist)" isLoading={isLoading}>
             <div className={common.card}>
                 <div className={common.mainInfo}>
                     <h1 className={common.pageTitle}>Gist Files</h1>
@@ -52,7 +55,7 @@ const ViewGist = () => {
                             </div>
                         </div>
                     )) : null
-                : 'Loading...'}</>
+                : null}</>
         </Layout>
     )
 }

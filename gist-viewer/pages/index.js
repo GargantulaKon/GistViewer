@@ -9,7 +9,6 @@ import {format, utcToZonedTime} from "date-fns-tz";
 
 const Index = () => {
     const [gistsByUser, setGistsByUser] = useState({gists: [], isFetching: false}),
-        // [gistById, setGistById] = useState({gist: {url: ''}, isFetching: false}),
         [favoriteGistsFetch, setFavoriteGistsFetch] = useState({gists: [], isFetching: false}),
         [username, setUsername] = useState(''),
         [isLoading, setIsLoading] = useState(false),
@@ -80,12 +79,7 @@ const Index = () => {
         }
 
     return (
-        <Layout pageTitle="Home">
-            {isLoading ?
-                <div className={common.loadingScreen}>
-                    <div className={common.loadingText}>Loading...</div>
-                </div>
-                : null}
+        <Layout pageTitle="Home" isLoading={isLoading}>
             <div>
                 <form id={'add-interest'} onSubmit={handleSubmit} className={styles.form}>
                     <span className={styles.formLabel}>Username:</span>
