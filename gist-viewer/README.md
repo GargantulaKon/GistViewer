@@ -3,7 +3,14 @@ with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/
 
 ## Getting Started
 
-First, run the development server:
+Create a .env file with the PostgreSQL connection in the root with the database info.
+
+Example:
+```javascript
+DATABASE_URL="postgres://username:password@dbname.db.elephantsql.com/username"
+```
+
+Run the development server:
 
 ```bash
 npm install
