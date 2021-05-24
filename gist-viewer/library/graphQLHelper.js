@@ -14,7 +14,6 @@ const setStateViaAPI = async (stateVar, stateSetter, stateObjectName, graphQLQue
     try {
         stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: true})
         const response = await fetcher(graphQLQuery)
-        console.log(response)
         stateSetter({
             [stateObjectName]: propertyFromResponse ? response[propertyFromResponse] : response,
             isFetching: false

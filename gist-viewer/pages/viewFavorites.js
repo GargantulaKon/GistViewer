@@ -30,16 +30,19 @@ const ViewFavorites = () => {
                 </div>
             </div>
             <div>
-                {!favoriteGistsFetch.isFetching ? favoriteGistsFetch.gists.map(({gistId}, i) => (
+                {!favoriteGistsFetch.isFetching && favoriteGistsFetch.gists.length ? favoriteGistsFetch.gists.map(({gistId}) => (
                     <div key={gistId} className={common.gistCard}>
                         <Link href={`/gist/${gistId}`}>
                             <a>
-                                <div key={`id${i}`} className={common.fieldTitle}><span
+                                <div className={common.fieldTitle}><span
                                     className={common.fieldLabel}>ID:</span> {gistId}</div>
                             </a>
                         </Link>
                     </div>
-                )) : null}
+                )) : <div className={common.gistCard}>
+                    No favorites are found. Go to the home page to mark a gist as a favorite by clicking on the star
+                    icon.
+                </div>}
             </div>
         </Layout>
     )
