@@ -5,6 +5,7 @@ import {addOrRemoveFavorite, setStateViaAPI} from "../library/graphQLHelper";
 import Layout from "../components/layout";
 import styles from '../styles/index.module.css';
 import common from '../styles/common.module.css';
+import {format, utcToZonedTime} from "date-fns-tz";
 
 const Index = () => {
     const [gistsByUser, setGistsByUser] = useState({gists: [], isFetching: false}),
@@ -138,7 +139,7 @@ const Index = () => {
                                 className={common.fieldLabel}>Description:</span> {description ? description : 'None'}
                             </div>
                             <div key={`created_at${i}`} className={common.fieldRows}><span
-                                className={common.fieldLabel}>Date Created:</span> {created_at}
+                                className={common.fieldLabel}>Date Created:</span> {format(utcToZonedTime(created_at, 'America/New_York'), "M-dd-yyyy, h:mm:ss a (z) O")}
                             </div>
                             <div key={`url${i}`} className={common.fieldRows}><span
                                 className={common.fieldLabel}>Url:</span> <a href={url} target="_blank">Link to Gist</a>
