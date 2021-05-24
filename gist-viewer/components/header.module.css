@@ -89,6 +89,7 @@ a.currentPage:before {
     .header {
         height: 100px;
     }
+
     .siteTitle {
         font-size: 2rem;
     }

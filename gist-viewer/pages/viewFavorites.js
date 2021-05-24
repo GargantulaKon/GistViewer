@@ -1,8 +1,8 @@
-import Layout from "../components/layout";
-import common from '../styles/common.module.css';
-import Link from "next/link";
-import {useEffect, useState} from "react";
-import {setStateViaAPI} from "../library/graphQLHelper";
+import Layout from "../components/layout"
+import common from '../styles/common.module.css'
+import Link from "next/link"
+import {useEffect, useState} from "react"
+import {setStateViaAPI} from "../library/graphQLHelper"
 
 const ViewFavorites = () => {
     const [favoriteGistsFetch, setFavoriteGistsFetch] = useState({gists: [], isFetching: false}),
@@ -11,16 +11,16 @@ const ViewFavorites = () => {
     useEffect(async () => {
         try {
             const fetchAllFavoriteGists = async () => {
-                setIsLoading(true);
+                setIsLoading(true)
                 await setStateViaAPI(favoriteGistsFetch, setFavoriteGistsFetch, 'gists',
                     '{ getAllFavoriteGists { gistId } }', 'getAllFavoriteGists')
             }
             await fetchAllFavoriteGists()
-            setIsLoading(false);
+            setIsLoading(false)
         } catch (error) {
             console.error(error)
         }
-    }, []);
+    }, [])
 
     return (
         <Layout pageTitle="View Favorites)" isLoading={isLoading}>

@@ -1,48 +1,48 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  font: 100% Verdana, Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #000;
+    font: 100% Verdana, Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #000;
 }
 
 a {
-  color: #0000ff;
-  text-decoration: underline;
+    color: #0000ff;
+    text-decoration: underline;
 }
 
 a:hover {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 a:active {
-  color: #000000;
-  text-decoration: underline;
-  border: 0;
+    color: #000000;
+    text-decoration: underline;
+    border: 0;
 }
 
 h1 {
-  font-size: 2rem;
-  margin: 0 0 20px 0;
+    font-size: 2rem;
+    margin: 0 0 20px 0;
 }
 
 h2 {
-  font-size: 1.5rem;
-  margin: 20px 0;
+    font-size: 1.5rem;
+    margin: 20px 0;
 }
 
 h3 {
-  font-size: 1.2rem;
-  margin: 0 0 10px 0;
-  color: #000f97;
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
+    color: #000f97;
 }
 
 ul {
-  margin-block-start: 0;
+    margin-block-start: 0;
 }

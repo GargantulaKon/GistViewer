@@ -1,4 +1,4 @@
-import prisma from "../../library/prisma";
+import prisma from "../../library/prisma"
 
 async function prismaFetcher(func) {
     try {

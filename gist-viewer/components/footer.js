@@ -1,4 +1,4 @@
-import styles from './footer.module.css';
+import styles from './footer.module.css'
 
 export default function Footer() {
     return (
@@ -9,9 +9,9 @@ export default function Footer() {
                     className={styles.icon}
                     title="Running Next.js/React/NodeJS/Prisma/GraphQL/PostgreSQL"
                 >{' '}
-                 &#128187;
+                    &#128187;
                 </span>
             </div>
         </footer>
-    );
+    )
 }

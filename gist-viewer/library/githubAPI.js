@@ -7,7 +7,7 @@ async function runFetch(url) {
         })
         return await fetchCall.json()
     } catch (error) {
-        console.error('api error',  error)
+        console.error('api error', error)
     }
 }
 

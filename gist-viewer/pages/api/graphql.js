@@ -1,6 +1,6 @@
 import {ApolloServer, gql} from 'apollo-server-micro'
-import {getGistById, getGistsByUser} from "../../library/githubAPI";
-import {getAllFavoriteGists, removeFavoriteGist, setFavoriteGist} from "./gistFavorites";
+import {getGistById, getGistsByUser} from "../../library/githubAPI"
+import {getAllFavoriteGists, removeFavoriteGist, setFavoriteGist} from "./gistFavorites"
 
 const typeDefs = gql`
 scalar JSON

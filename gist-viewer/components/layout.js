@@ -1,9 +1,9 @@
-import Head from 'next/head';
-import styles from './layout.module.css';
+import Head from 'next/head'
+import styles from './layout.module.css'
 
-import Header from '../components/header';
-import Footer from '../components/footer';
-import common from "../styles/common.module.css";
+import Header from '../components/header'
+import Footer from '../components/footer'
+import common from "../styles/common.module.css"
 
 export default function Layout({children, pageTitle, isLoading}) {
 
@@ -25,5 +25,5 @@ export default function Layout({children, pageTitle, isLoading}) {
                 {children}</main>
             <Footer/>
         </div>
-    );
+    )
 }

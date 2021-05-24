@@ -1,7 +1,7 @@
-import Layout from "../../components/layout";
-import common from '../../styles/common.module.css';
-import {useEffect, useState} from "react";
-import {setStateViaAPI} from "../../library/graphQLHelper";
+import Layout from "../../components/layout"
+import common from '../../styles/common.module.css'
+import {useEffect, useState} from "react"
+import {setStateViaAPI} from "../../library/graphQLHelper"
 import {useRouter} from 'next/router'
 
 const ViewGist = () => {
@@ -12,16 +12,16 @@ const ViewGist = () => {
 
     useEffect(async () => {
         if (!id) {
-            return;
+            return
         }
-        setIsLoading(true);
+        setIsLoading(true)
         const fetchGist = async () => {
             await setStateViaAPI(gist, setGist, 'gist',
                 `{ gist(id: "${id}") { files } }`, 'gist')
         }
         await fetchGist()
-        setIsLoading(false);
-    }, [id]);
+        setIsLoading(false)
+    }, [id])
 
     return (
         <Layout pageTitle="View Gist)" isLoading={isLoading}>

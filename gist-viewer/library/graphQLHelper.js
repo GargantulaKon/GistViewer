@@ -12,25 +12,25 @@ const fetcher = async (query) => {
 
 const setStateViaAPI = async (stateVar, stateSetter, stateObjectName, graphQLQuery, propertyFromResponse) => {
     try {
-        stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: true});
-        const response = await fetcher(graphQLQuery);
+        stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: true})
+        const response = await fetcher(graphQLQuery)
         console.log(response)
         stateSetter({
             [stateObjectName]: propertyFromResponse ? response[propertyFromResponse] : response,
             isFetching: false
         })
     } catch (error) {
-        console.error(error);
+        console.error(error)
         alert('Error! Check database connection limit at https://customer.elephantsql.com/login')
-        stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: false});
+        stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: false})
     }
 }
 
 const addOrRemoveFavorite = async (graphQLQuery) => {
     try {
-        return await fetcher(graphQLQuery);
+        return await fetcher(graphQLQuery)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 }
 

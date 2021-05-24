@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useSpring, animated } from 'react-spring';
+import {useState} from 'react'
+import Link from 'next/link'
+import {useRouter} from 'next/router'
+import {useSpring, animated} from 'react-spring'
 
-import styles from './header.module.css';
+import styles from './header.module.css'
 
-export default function Header( ) {
+export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false),
         router = useRouter(),
         menuTransition = useSpring({
             transform: isMenuOpen ? 'translate3d(0,0,0)' : 'translate3d(-350px,0,0)',
-        });
+        })
 
     return (
         <>
@@ -26,7 +26,7 @@ export default function Header( ) {
                                     className={styles.menuIcon}
                                     src="../../image/menu_open.svg"
                                     onClick={() => {
-                                        setIsMenuOpen(false);
+                                        setIsMenuOpen(false)
                                     }}
                                     alt="menu opened"
                                 />
@@ -63,7 +63,7 @@ export default function Header( ) {
                             }`}
                             src="../../image/menu.svg"
                             onClick={() => {
-                                setIsMenuOpen(true);
+                                setIsMenuOpen(true)
                             }}
                             alt="menu closed"
                         />
@@ -77,5 +77,5 @@ export default function Header( ) {
                 </div>
             </header>
         </>
-    );
+    )
 }

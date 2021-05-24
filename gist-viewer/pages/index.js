@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
-import Link from 'next/link';
+import {useEffect, useState} from "react"
+import Link from 'next/link'
 
-import {addOrRemoveFavorite, setStateViaAPI} from "../library/graphQLHelper";
-import Layout from "../components/layout";
-import styles from '../styles/index.module.css';
-import common from '../styles/common.module.css';
-import {format, utcToZonedTime} from "date-fns-tz";
+import {addOrRemoveFavorite, setStateViaAPI} from "../library/graphQLHelper"
+import Layout from "../components/layout"
+import styles from '../styles/index.module.css'
+import common from '../styles/common.module.css'
+import {format, utcToZonedTime} from "date-fns-tz"
 
 const Index = () => {
     const [gistsByUser, setGistsByUser] = useState({gists: [], isFetching: false}),
@@ -25,11 +25,11 @@ const Index = () => {
         } catch (error) {
             console.error(error)
         }
-    }, []);
+    }, [])
 
     useEffect(() => {
         if (!favoriteGistsFetch.gists) {
-            return;
+            return
         }
         let convertedList = []
         favoriteGistsFetch.gists.forEach((gist) => {
@@ -37,26 +37,26 @@ const Index = () => {
         })
 
         setFavorites(convertedList)
-    }, [favoriteGistsFetch]);
+    }, [favoriteGistsFetch])
 
     const handleSubmit = async (event) => {
-            event.preventDefault();
-            setIsSubmitDisabled(true);
-            setIsLoading(true);
+            event.preventDefault()
+            setIsSubmitDisabled(true)
+            setIsLoading(true)
 
             await setStateViaAPI(gistsByUser, setGistsByUser, 'gists',
                 `{ gists(username: "${username}") { url, description, created_at, id } }`, 'gists')
-            setIsLoading(false);
-            setIsSubmitDisabled(false);
+            setIsLoading(false)
+            setIsSubmitDisabled(false)
         },
         addFavorite = async (event, id, query) => {
-            event.preventDefault();
-            setIsLoading(true);
+            event.preventDefault()
+            setIsLoading(true)
             try {
                 let result = await addOrRemoveFavorite(query)
 
                 if (result.setFavoriteGist.gistId) {
-                    setIsLoading(false);
+                    setIsLoading(false)
                     setFavorites([...favorites, id])
                 }
             } catch (error) {
@@ -64,13 +64,13 @@ const Index = () => {
             }
         },
         removeFavorite = async (event, id, query) => {
-            event.preventDefault();
-            setIsLoading(true);
+            event.preventDefault()
+            setIsLoading(true)
             try {
                 let result = await addOrRemoveFavorite(query)
 
                 if (result.removeFavoriteGist.gistId) {
-                    setIsLoading(false);
+                    setIsLoading(false)
                     setFavorites(favorites.filter((favorite) => favorite !== id))
                 }
             } catch (error) {
@@ -113,15 +113,15 @@ const Index = () => {
                     {!gistsByUser.isFetching ? gistsByUser.gists.map(({id, description, created_at, url}, i) => (
                         <div key={id} className={common.gistCard}>
                             <div>
-                            {favorites.includes(id) ?
-                                <a onClick={(event) => removeFavorite(event, id, `mutation { removeFavoriteGist(id: "${id}") { gistId } }`)}><img
-                                    alt="full star" title="Remove Favorite" src="../../image/star_full.png"/>
-                                </a>
-                                :
-                                <a onClick={(event) => addFavorite(event, id, `mutation { setFavoriteGist(id: "${id}") { gistId } }`)}>
-                                    <img alt="empty star" title="Mark Favorite" src="../../image/star_empty.png"/>
-                                </a>
-                            }
+                                {favorites.includes(id) ?
+                                    <a onClick={(event) => removeFavorite(event, id, `mutation { removeFavoriteGist(id: "${id}") { gistId } }`)}><img
+                                        alt="full star" title="Remove Favorite" src="../../image/star_full.png"/>
+                                    </a>
+                                    :
+                                    <a onClick={(event) => addFavorite(event, id, `mutation { setFavoriteGist(id: "${id}") { gistId } }`)}>
+                                        <img alt="empty star" title="Mark Favorite" src="../../image/star_empty.png"/>
+                                    </a>
+                                }
                             </div>
                             <Link href={`/gist/${id}`}>
                                 <a>
