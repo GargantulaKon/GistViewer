@@ -14,14 +14,14 @@ const setStateViaAPI = async (stateVar, stateSetter, stateObjectName, graphQLQue
     try {
         stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: true});
         const response = await fetcher(graphQLQuery);
-        console.log('response', response)
+        console.log(response)
         stateSetter({
             [stateObjectName]: propertyFromResponse ? response[propertyFromResponse] : response,
             isFetching: false
         })
     } catch (error) {
         console.error(error);
-        alert('Error! Check database connection limit at https://api.elephantsql.com/console/')
+        alert('Error! Check database connection limit at https://customer.elephantsql.com/login')
         stateSetter({[stateObjectName]: stateVar[propertyFromResponse], isFetching: false});
     }
 }

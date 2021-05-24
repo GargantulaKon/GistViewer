@@ -14,7 +14,6 @@ const ViewGist = () => {
             return;
         }
         const fetchGist = async () => {
-            // console.log('id', id)
             await setStateViaAPI(gist, setGist, 'gist',
                 `{ gist(id: "${id}") { files } }`, 'gist')
         }
@@ -25,36 +24,35 @@ const ViewGist = () => {
         <Layout pageTitle="View Gist)">
             <div className={common.card}>
                 <div className={common.mainInfo}>
-                    <h1>Gist Files</h1>
-                    {gist.gist.files ? console.log('Object.keys(gist.gist.files)', Object.keys(gist.gist.files)) : null}
-                    <>{!gist.isFetching ?
-                        gist.gist.files ?
-                            Object.keys(gist.gist.files).map((key) => (
-                                <div className={common.gistCard}>
-                                    <div key={`id${gist.gist.files[key].filename}`} className={common.fieldTitle}><span
-                                        className={common.fieldLabel}>Filename:</span> {gist.gist.files[key].filename}
-                                    </div>
-                                    <div key={`description${gist.gist.files[key].filename}`}
-                                         className={common.fieldRows}><span
-                                        className={common.fieldLabel}>Type:</span> {gist.gist.files[key].type}
-                                    </div>
-                                    <div key={`created_at${gist.gist.files[key].filename}`}
-                                         className={common.fieldRows}><span
-                                        className={common.fieldLabel}>Language:</span> {gist.gist.files[key].language ? gist.gist.files[key].language : 'None'}
-                                    </div>
-                                    <div key={`created_at${gist.gist.files[key].filename}`}
-                                         className={common.fieldRows}><span
-                                        className={common.fieldLabel}>Size:</span> {gist.gist.files[key].size} bytes
-                                    </div>
-                                    <div key={`url${gist.gist.files[key].filename}`} className={common.fieldRows}><span
-                                        className={common.fieldLabel}>Url:</span> <a href={gist.gist.files[key].raw_url}
-                                                                                     target="_blank">Link to File</a>
-                                    </div>
-                                </div>
-                            )) : null
-                        : 'Loading...'}</>
+                    <h1 className={common.pageTitle}>Gist Files</h1>
                 </div>
             </div>
+            <>{!gist.isFetching ?
+                gist.gist.files ?
+                    Object.keys(gist.gist.files).map((key) => (
+                        <div className={common.gistCard}>
+                            <div key={`id${gist.gist.files[key].filename}`} className={common.fieldTitle}><span
+                                className={common.fieldLabel}>Filename:</span> {gist.gist.files[key].filename}
+                            </div>
+                            <div key={`description${gist.gist.files[key].filename}`}
+                                 className={common.fieldRows}><span
+                                className={common.fieldLabel}>Type:</span> {gist.gist.files[key].type}
+                            </div>
+                            <div key={`created_at${gist.gist.files[key].filename}`}
+                                 className={common.fieldRows}><span
+                                className={common.fieldLabel}>Language:</span> {gist.gist.files[key].language ? gist.gist.files[key].language : 'None'}
+                            </div>
+                            <div key={`created_at${gist.gist.files[key].filename}`}
+                                 className={common.fieldRows}><span
+                                className={common.fieldLabel}>Size:</span> {gist.gist.files[key].size} bytes
+                            </div>
+                            <div key={`url${gist.gist.files[key].filename}`} className={common.fieldRows}><span
+                                className={common.fieldLabel}>Url:</span> <a href={gist.gist.files[key].raw_url}
+                                                                             target="_blank">Link to File</a>
+                            </div>
+                        </div>
+                    )) : null
+                : 'Loading...'}</>
         </Layout>
     )
 }

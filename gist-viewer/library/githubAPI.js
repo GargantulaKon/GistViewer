@@ -2,8 +2,7 @@ async function runFetch(url) {
     try {
         let fetchCall = await fetch(url, {
             headers: new Headers({
-                // "Authorization": `Basic ${base64.encode(`GargantulaKon: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}`)}`
-                "Authorization": "token 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"
+                // "Authorization": "token insert PAT from Db if needed (got to https://github.com/settings/tokens)"
             }),
         })
         return await fetchCall.json()

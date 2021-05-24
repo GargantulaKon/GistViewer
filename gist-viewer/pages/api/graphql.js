@@ -37,7 +37,6 @@ const resolvers = {
         },
         async gist(parent, args, context) {
             try {
-                // return console.log(await getGistById(args.id))
                 return getGistById(args.id)
             } catch (error) {
                 console.error('api error', error)

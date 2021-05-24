@@ -35,7 +35,7 @@ const Index = () => {
         favoriteGistsFetch.gists.forEach((gist) => {
             convertedList.push(gist.gistId)
         })
-        console.log('convertedList', convertedList)
+
         setFavorites(convertedList)
     }, [favoriteGistsFetch]);
 
@@ -43,7 +43,7 @@ const Index = () => {
             event.preventDefault();
             setIsSubmitDisabled(true);
             setIsLoading(true);
-            // console.log('gistsByUser State', gistsByUser)
+
             await setStateViaAPI(gistsByUser, setGistsByUser, 'gists',
                 `{ gists(username: "${username}") { url, description, created_at, id } }`, 'gists')
             setIsLoading(false);
@@ -68,7 +68,7 @@ const Index = () => {
             setIsLoading(true);
             try {
                 let result = await addOrRemoveFavorite(query)
-                console.log('result', result)
+
                 if (result.removeFavoriteGist.gistId) {
                     setIsLoading(false);
                     setFavorites(favorites.filter((favorite) => favorite !== id))
@@ -113,12 +113,11 @@ const Index = () => {
                                 : `Search`} &#129488;
                     </button>
                 </form>
-                {console.log('gistsByUser', gistsByUser)}
                 <div>
                     {!gistsByUser.gists.length ? 'Please search first.' : null}
                     {!gistsByUser.isFetching ? gistsByUser.gists.map(({id, description, created_at, url}, i) => (
                         <div key={id} className={common.gistCard}>
-                            {console.log('favs', favorites)}
+                            <div>
                             {favorites.includes(id) ?
                                 <a onClick={(event) => removeFavorite(event, id, `mutation { removeFavoriteGist(id: "${id}") { gistId } }`)}><img
                                     alt="full star" title="Remove Favorite" src="../../image/star_full.png"/>
@@ -128,6 +127,7 @@ const Index = () => {
                                     <img alt="empty star" title="Mark Favorite" src="../../image/star_empty.png"/>
                                 </a>
                             }
+                            </div>
                             <Link href={`/gist/${id}`}>
                                 <a>
                                     <div key={`id${i}`} className={common.fieldTitle}><span
