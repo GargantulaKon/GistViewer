@@ -21,6 +21,10 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+##Troubleshooting
+
+If you have issues running it, try running npx ```prisma generate``` and then try running the app again.
+
 ## Notes
 
 I spent about 7 hours researching and about 6 hours coding. I used my UI from my portfolio website to speed up the design process.
