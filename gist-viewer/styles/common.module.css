@@ -121,4 +121,7 @@
         align-items: center;
         padding: 20px;
     }
+    .fieldTitle {
+        font-size: 1rem;
+    }
 }
